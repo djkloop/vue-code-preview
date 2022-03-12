@@ -37,14 +37,18 @@ export default defineComponent({
         version: '2.x'
       };
     },
+    created() {
+      this.enterLoading();
+    },
     methods: {
       enterLoading() {
         this.loading = true;
+        console.log('enterLoading');
       },
       enterIconLoading() {
         this.iconLoading = { delay: 1000 };
       },
-    },
+    }
     };
     </script>
     <style>
@@ -74,6 +78,7 @@ export default defineComponent({
     const useGenComponent = async () => {
       const _genComponent = {};
       const { template, script, styles, errors } = sfcDescriptor;
+      console.log(sfcDescriptor, errors);
       if (errors && errors.length) {
         console.error(
           `Error compiling template:\n\n` +
@@ -83,9 +88,7 @@ export default defineComponent({
       }
       const templateCode = template ? template.content.trim() : ``;
       let scriptCode = script ? script.content.trim() : ``;
-      console.log(styles, " <<<<<-----");
       const styleCodes = await genStyleInjectionCode(styles, "demo-999");
-      console.log(styleCodes);
 
       // script
       if (!isEmpty(scriptCode)) {
